@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  /* Intuit uslubidagi ranglar */
+  --color-brand-blue: #0077C5;
+  --color-sidebar-bg: #F8F9FA;
+  
+  /* Shriftlar yoki boshqa o'zgaruvchilarni ham shu yerga qo'shish mumkin */
+}
