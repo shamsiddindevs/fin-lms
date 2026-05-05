@@ -1,49 +1,17 @@
 import { useState } from "react";
-import HeroSection from "./components/layout/HeroSection";
-import Sidebar from "./components/layout/Sidebar";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import SimulationCard from "./components/layout/SimulationCard";
-
-const simulationsData = [
-  {
-    title: "Email Marketing Basics",
-    category: "Mailchimp",
-    description: "Learn how to build an audience and create campaigns that grow your business.",
-    image: "https://prdasset.intuit4education.a.intuit.com/intuitforeducation/courses/images/simulations/explore/intuit_mailchimp/latest/intuit_mailchimp.png",
-    color: "bg-[#FFE01B]/20", // Mailchimp sariq rangining shaffof versiyasi
-  },
-  {
-    title: "Small Business Accounting",
-    category: "QuickBooks",
-    description: "Master the fundamentals of bookkeeping and managing cash flow for startups.",
-    image: "https://prdasset.intuit4education.a.intuit.com/intuitforeducation/courses/images/simulations/explore/intuit_quickbooks/latest/intuit_quickbooks.png",
-    color: "bg-[#2CA01C]/10", // QuickBooks yashil rang
-  },
-  {
-    title: "Understanding Credit Scores",
-    category: "Credit Karma",
-    description: "Explore how credit scores are calculated and why they matter for your future.",
-    image: "https://prdasset.intuit4education.a.intuit.com/intuitforeducation/courses/images/simulations/explore/intuit_turbotax/latest/intuit_turbotax.png",
-    color: "bg-[#008134]/10",
-  },
-  {
-    title: "Personal Tax Filing",
-    category: "TurboTax",
-    description: "Step-by-step simulation of filing your first personal income tax return.",
-    image: "https://prdasset.intuit4education.a.intuit.com/intuitforeducation/courses/images/simulations/explore/intuit_mailchimp/latest/intuit_mailchimp.png",
-    color: "bg-[#D61102]/10",
-  }
-];
+import Sidebar from "./components/layout/Sidebar";
+import Home from "./pages/Home";
+import CategoryPage from "./pages/CategoryPage";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-
-
-
-
   return (
-    <div className="flex min-h-screen h-full bg-white font-sans">
+    // overflow-x-hidden butun saytda gorizontal skroll chiqib qolishini oldini oladi
+    <div className="flex min-h-screen bg-white font-sans overflow-x-hidden">
+      
       {/* Mobil menyu tugmasi */}
       <button
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-brand-blue text-white rounded-lg shadow-lg"
@@ -54,7 +22,7 @@ function App() {
 
       {/* Sidebar - Mobil va Desktop uchun */}
       <div className={`
-        fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out bg-white
+        fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out bg-white border-r border-gray-100
         lg:translate-x-0 lg:static lg:block
         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
       `}>
@@ -62,9 +30,11 @@ function App() {
       </div>
 
       {/* Asosiy kontent maydoni */}
-      <main className="flex-1 w-full lg:ml-0 p-4  relative">
+      {/* MUHIM: w-full o'rniga min-w-0 ishlatildi */}
+      <main className="flex-1 min-w-0 relative flex flex-col">
+        
         {/* Navigatsiya satri (Header) */}
-        <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b lg:border-none border-gray-100 px-4 md:px-8 py-4 mb-4">
+        <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b lg:border-none border-gray-100 px-4 md:px-8 py-4 mb-2">
           <div className="max-w-6xl mx-auto flex justify-end items-center gap-2 md:gap-4">
             <button className="text-brand-blue font-semibold px-2 md:px-4 py-2 text-sm md:text-base hover:bg-blue-50 rounded-lg transition-colors">
               Log in
@@ -78,18 +48,15 @@ function App() {
           </div>
         </header>
 
-        {/* Hero Section */}
-        <div className="max-w-6xl mx-auto">
-          <HeroSection />
-
-          <div className="mt-12 md:mt-16">
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 md:mb-8">Simulations</h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {simulationsData.map((sim, index) => (
-                <SimulationCard key={index} {...sim} />
-              ))}
-            </div>
+        {/* Kontent chiqadigan asosiy joy */}
+        <div className="px-4 md:px-8 pb-12">
+          <div className="max-w-6xl mx-auto">
+            <Routes>
+              <Route path="/" element={<Navigate to="/home" replace />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/home/filter" element={<CategoryPage />} />
+              <Route path="/home/simulations" element={<CategoryPage />} />
+            </Routes>
           </div>
         </div>
       </main>
@@ -101,8 +68,6 @@ function App() {
           onClick={() => setSidebarOpen(false)}
         />
       )}
-
-
     </div>
   );
 }

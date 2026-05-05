@@ -7,3 +7,13 @@
   
   /* Shriftlar yoki boshqa o'zgaruvchilarni ham shu yerga qo'shish mumkin */
 }
+/* index.css fayliga qo'shing */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
